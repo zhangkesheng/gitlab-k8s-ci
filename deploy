@@ -1,0 +1,56 @@
+#!/bin/bash
+
+echo "init kubernetes config"
+echo "${KUBE_CA_PEM}" > kube_ca.pem
+kubectl config set-cluster default-cluster --server=${KUBE_URL} --certificate-authority="$(pwd)/kube_ca.pem"
+kubectl config set-credentials default-admin --token=${KUBE_TOKEN}
+kubectl config set-context default --cluster=default-cluster --user=default-admin --namespace ${KUBE_NAMESPACE}
+kubectl config use-context default
+
+echo "Deploying $CI_ENVIRONMENT_SLUG with $REGISTRY_ADDR/$NAME_SPACE/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHA..."
+cat <<EOF | kubectl apply --force --record -f -
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: $name
+  labels:
+    app: $CI_ENVIRONMENT_SLUG
+    pipeline_id: "$CI_PIPELINE_ID"
+    build_id: "$CI_BUILD_ID"
+    tier: web
+spec:
+  replicas: $replicas
+  template:
+    metadata:
+      labels:
+        name: $name
+        app: $CI_ENVIRONMENT_SLUG
+        tier: web
+    spec:
+      imagePullSecrets:
+  name: aliyunzks
+      containers:
+  name: app
+        image: $REGISTRY_ADDR/$NAME_SPACE/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHA
+        imagePullPolicy: Always
+        env:
+    name: CI_PIPELINE_ID
+          value: "$CI_PIPELINE_ID"
+    name: CI_BUILD_ID
+          value: "$CI_BUILD_ID"
+        ports:
+    name: web
+          containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 15
+          timeoutSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 3
+EOF

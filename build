@@ -1,0 +1,8 @@
+#!/bin/bash
+## todo check docker engine
+
+echo "Building application..."
+
+docker login --username=$USER_NAME $REGISTRY_ADDR --password $PASSWORD
+docker build -t  $REMOTE_IMAGE_NAME .
+docker push $REMOTE_IMAGE_NAME
