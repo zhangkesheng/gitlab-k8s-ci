@@ -33,6 +33,7 @@ ENV KUBE_NAMESPACE="default"
 ENV KUBE_CA_PEM=""
 
 COPY / /opt/kubernetes-deploy/
+RUN chmod a+x -R /opt/kubernetes-deploy/
 
 ENTRYPOINT []
 CMD []
