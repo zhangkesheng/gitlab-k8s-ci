@@ -33,8 +33,6 @@ ENV KUBE_NAMESPACE="default"
 ENV KUBE_CA_PEM=""
 
 COPY / /opt/kubernetes-deploy/
-RUN which deploy && \
-  which build
 
 ENTRYPOINT []
 CMD []
