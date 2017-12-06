@@ -31,6 +31,7 @@ ENV KUBE_URL="https://192.168.10.64:6443"
 ENV KUBE_TOKEN=""
 ENV KUBE_NAMESPACE="default"
 ENV KUBE_CA_PEM=""
+ENV IMAGE_SECRET=aliyunzks
 
 COPY / /opt/kubernetes-deploy/
 RUN chmod a+x -R /opt/kubernetes-deploy/
