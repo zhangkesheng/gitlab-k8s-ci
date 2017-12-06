@@ -8,7 +8,7 @@ kubectl config set-context default --cluster=default-cluster --user=default-admi
 kubectl config use-context default
 
 echo "Deploying $CI_ENVIRONMENT_SLUG with $REGISTRY_ADDR/$NAME_SPACE/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHA..."
-cat <<EOF | kubectl apply --force --record -f -
+cat > deployment.yaml <<EOF
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -54,3 +54,5 @@ spec:
           initialDelaySeconds: 5
           timeoutSeconds: 3
 EOF
+cat deployment.yaml
+kubectl apply --force --record -f deployment.yaml
