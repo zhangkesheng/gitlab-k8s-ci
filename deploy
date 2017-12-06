@@ -28,7 +28,7 @@ spec:
         tier: web
     spec:
       imagePullSecrets:
-      - name: aliyunzks
+      - name: $IMAGE_SECRET
       containers:
       - name: app
         image: $REGISTRY_ADDR/$NAME_SPACE/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHA
