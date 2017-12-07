@@ -3,6 +3,7 @@
 
 echo "Building application..."
 
-docker login --username=$USER_NAME $REGISTRY_ADDR --password $PASSWORD
+docker login --username=$USER_NAME_BUILD $REGISTRY_ADDR_BUILD --password $PASSWORD_BUILD
 docker build -t  $REMOTE_IMAGE_NAME .
+docker login --username=$USER_NAME $REGISTRY_ADDR --password $PASSWORD
 docker push $REMOTE_IMAGE_NAME
