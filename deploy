@@ -40,7 +40,7 @@ spec:
           value: "$CI_BUILD_ID"
         ports:
         - name: web
-          containerPort: 80
+          containerPort: ${SERVER_PORT}
         livenessProbe:
           httpGet:
             path: /
