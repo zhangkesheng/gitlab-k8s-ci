@@ -15,32 +15,22 @@ metadata:
   name: $name
   labels:
     app: $CI_ENVIRONMENT_SLUG
-    pipeline_id: "$CI_PIPELINE_ID"
-    build_id: "$CI_BUILD_ID"
-    tier: web
 spec:
   replicas: $replicas
   template:
     metadata:
       labels:
         name: $name
-        app: $CI_ENVIRONMENT_SLUG
-        tier: web
+        app: $name
     spec:
       imagePullSecrets:
       - name: $IMAGE_SECRET
       containers:
-      - name: app
-        image: $REGISTRY_ADDR/$NAME_SPACE/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHA
+      - name: $name
+        image: $REMOTE_IMAGE_NAME
         imagePullPolicy: Always
-        env:
-        - name: CI_PIPELINE_ID
-          value: "$CI_PIPELINE_ID"
-        - name: CI_BUILD_ID
-          value: "$CI_BUILD_ID"
         ports:
-        - name: web
-          containerPort: ${SERVER_PORT}
+        - containerPort: $SERVER_PORT
 EOF
 cat deployment.yaml
 kubectl apply --force --record -f deployment.yaml
