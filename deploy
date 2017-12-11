@@ -41,18 +41,6 @@ spec:
         ports:
         - name: web
           containerPort: ${SERVER_PORT}
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 15
-          timeoutSeconds: 15
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 5
-          timeoutSeconds: 3
 EOF
 cat deployment.yaml
 kubectl apply --force --record -f deployment.yaml
