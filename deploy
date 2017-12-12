@@ -20,7 +20,6 @@ spec:
   template:
     metadata:
       labels:
-        name: $name
         app: $name
     spec:
       imagePullSecrets:
