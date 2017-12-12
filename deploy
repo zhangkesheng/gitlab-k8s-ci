@@ -14,7 +14,7 @@ kind: Deployment
 metadata:
   name: $name
   labels:
-    app: $CI_ENVIRONMENT_SLUG
+    app: $name
 spec:
   replicas: $replicas
   template:
