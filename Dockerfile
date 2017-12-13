@@ -18,7 +18,9 @@ RUN wget "https://dl.k8s.io/v1.8.4/kubernetes-client-linux-amd64.tar.gz" && \
   tar -xzvf kubernetes-client-linux-amd64.tar.gz && \
   cp kubernetes/client/bin/kube* /usr/bin/ && \
   chmod +x /usr/bin/kubectl && \
-  kubectl version --client
+  kubectl version --client && \
+  rm kubernetes-client-linux-amd64.tar.gz && \
+  rm -r kubernetes
 
 # Install deploy scripts
 ENV PATH=/opt/kubernetes-deploy:$PATH
